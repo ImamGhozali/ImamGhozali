@@ -41,7 +41,7 @@ async function main() {
       name
       login
       followers { totalCount }
-      repositories(first: 100, ownerAffiliations: OWNER, privacy: PUBLIC) {
+      repositories(first: 100, ownerAffiliations: [OWNER, ORGANIZATION_MEMBER], privacy: PUBLIC) {
         nodes {
           stargazerCount
           forkCount
@@ -50,7 +50,7 @@ async function main() {
           }
         }
       }
-      privateRepos: repositories(first: 100, ownerAffiliations: OWNER, privacy: PRIVATE) {
+      privateRepos: repositories(first: 100, ownerAffiliations: [OWNER, ORGANIZATION_MEMBER], privacy: PRIVATE) {
         nodes {
           stargazerCount
           forkCount
@@ -58,6 +58,9 @@ async function main() {
             edges { size node { name } }
           }
         }
+      }
+      organizations(first: 10) {
+        totalCount
       }
     }
   }
@@ -67,6 +70,7 @@ async function main() {
   const v = data.viewer;
 
   const allRepos = [...v.repositories.nodes, ...v.privateRepos.nodes];
+  const totalRepos = allRepos.length;
 
   const stars = allRepos.reduce((s, r) => s + r.stargazerCount, 0);
   const forks = allRepos.reduce((s, r) => s + r.forkCount, 0);
@@ -89,8 +93,10 @@ async function main() {
   const md = `
 **GitHub Stats for @${v.login}**
 
+- Total Repositories (personal + org): **${totalRepos}**
 - Total Stars (public + private): **${stars}**
 - Total Forks (public + private): **${forks}**
+- Organizations: **${v.organizations.totalCount}**
 - Followers: **${v.followers.totalCount}**
 - Top Languages: ${topLangs}
 
