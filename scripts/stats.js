@@ -42,10 +42,13 @@ async function main() {
       name
       login
       followers { totalCount }
-      repositories(ownerAffiliations: [OWNER, ORGANIZATION_MEMBER]) {
+      ownedRepos: repositories(ownerAffiliations: OWNER) {
         totalCount
       }
-      organizations {
+      orgRepos: repositories(ownerAffiliations: ORGANIZATION_MEMBER) {
+        totalCount
+      }
+      organizations(first: 100) {
         totalCount
       }
     }
@@ -53,17 +56,22 @@ async function main() {
   `;
 
   const countData = await gql(countQuery);
-  const totalRepoCount = countData.viewer.repositories.totalCount;
+  const totalRepoCount = countData.viewer.ownedRepos.totalCount + countData.viewer.orgRepos.totalCount;
   const orgCount = countData.viewer.organizations.totalCount;
+  
+  console.log(`Owned repos: ${countData.viewer.ownedRepos.totalCount}`);
+  console.log(`Org repos: ${countData.viewer.orgRepos.totalCount}`);
+  console.log(`Total repos: ${totalRepoCount}`);
+  console.log(`Organizations: ${orgCount}`);
 
-  // Second query to get repository details (up to 100 repos)
+  // Second query to get repository details
   const query = `
   {
     viewer {
       name
       login
       followers { totalCount }
-      repositories(first: 100, ownerAffiliations: [OWNER, ORGANIZATION_MEMBER], privacy: PUBLIC) {
+      ownedPublic: repositories(first: 100, ownerAffiliations: OWNER, privacy: PUBLIC) {
         nodes {
           stargazerCount
           forkCount
@@ -72,7 +80,25 @@ async function main() {
           }
         }
       }
-      privateRepos: repositories(first: 100, ownerAffiliations: [OWNER, ORGANIZATION_MEMBER], privacy: PRIVATE) {
+      ownedPrivate: repositories(first: 100, ownerAffiliations: OWNER, privacy: PRIVATE) {
+        nodes {
+          stargazerCount
+          forkCount
+          languages(first: 10) {
+            edges { size node { name } }
+          }
+        }
+      }
+      orgPublic: repositories(first: 100, ownerAffiliations: ORGANIZATION_MEMBER, privacy: PUBLIC) {
+        nodes {
+          stargazerCount
+          forkCount
+          languages(first: 10) {
+            edges { size node { name } }
+          }
+        }
+      }
+      orgPrivate: repositories(first: 100, ownerAffiliations: ORGANIZATION_MEMBER, privacy: PRIVATE) {
         nodes {
           stargazerCount
           forkCount
@@ -88,7 +114,12 @@ async function main() {
   const data = await gql(query);
   const v = data.viewer;
 
-  const allRepos = [...v.repositories.nodes, ...v.privateRepos.nodes];
+  const allRepos = [
+    ...v.ownedPublic.nodes,
+    ...v.ownedPrivate.nodes,
+    ...v.orgPublic.nodes,
+    ...v.orgPrivate.nodes
+  ];
 
   const stars = allRepos.reduce((s, r) => s + r.stargazerCount, 0);
   const forks = allRepos.reduce((s, r) => s + r.forkCount, 0);
