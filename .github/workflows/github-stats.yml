@@ -12,6 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: actions/setup-node@v4
         with:
@@ -20,24 +23,15 @@ jobs:
       - name: Install dependencies
         run: npm install node-fetch@3
 
-      - name: Fetch latest changes and rebase from remote
-        run: |
-          git fetch origin
-          git pull --rebase origin master  # Rebase the local branch with the remote branch
-
       - name: Run stats script
         run: node scripts/stats.js
         env:
-          GH_USER: ${{ secrets.GH_USER }}       # Use secret here
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}     # Ensure GH_TOKEN is correct
+          GH_USER: ${{ secrets.GH_USER }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      - name: Commit README update
+      - name: Commit and push if changed
         run: |
-          if [[ -n "$(git status --porcelain)" ]]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git pull --rebase origin master
-            git add README.md
-            git commit -m "Update GitHub stats"
-            git push origin master
-          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update GitHub stats" && git push)
