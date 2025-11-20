@@ -3,10 +3,10 @@
     "version": "1.0.0",
     "type": "module",
     "scripts": {
-      "start": "node scripts/stats.js"
+        "start": "node scripts/stats.js"
     },
     "dependencies": {
-      "node-fetch": "^3.0.0"
+        "dotenv": "^17.2.3",
+        "node-fetch": "^3.0.0"
     }
-  }
-  
+}

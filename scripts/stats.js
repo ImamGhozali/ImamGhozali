@@ -1,6 +1,10 @@
 import fs from "fs";
 import fetch from "node-fetch";
 
+
+console.log(process.env.GH_USER);
+console.log(process.env.GH_TOKEN);
+
 const user = process.env.GH_USER;
 const token = process.env.GH_TOKEN;
 
