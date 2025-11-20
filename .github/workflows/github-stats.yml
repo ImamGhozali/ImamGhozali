@@ -17,21 +17,15 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install deps
-        run: npm i node-fetch@3
+      - name: Install dependencies
+        run: npm install node-fetch@3
 
       - name: Run stats script
         run: node scripts/stats.js
         env:
-          GH_USER: "ImamGhozali"
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_USER: ${{ secrets.GH_USER }}       # Use secret here
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}     # Ensure GH_TOKEN is correct
 
       - name: Commit README update
         run: |
-          if [[ -n "$(git status --porcelain)" ]]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add README.md
-            git commit -m "Update GitHub stats"
-            git push
-          fi
+          if
