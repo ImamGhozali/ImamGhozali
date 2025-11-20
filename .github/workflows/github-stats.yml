@@ -20,10 +20,10 @@ jobs:
       - name: Install dependencies
         run: npm install node-fetch@3
 
-      - name: Fetch latest changes
+      - name: Fetch latest changes from remote
         run: |
           git fetch origin
-          git merge origin/master
+          git pull --rebase origin master  # Rebase to avoid merge commits
 
       - name: Run stats script
         run: node scripts/stats.js
