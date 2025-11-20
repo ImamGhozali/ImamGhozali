@@ -5,13 +5,13 @@
 **GitHub Stats for @ImamGhozali**
 
 - Total Repositories (personal + org): **45**
-- Total Stars (public + private): **1**
-- Total Forks (public + private): **0**
+- Total Stars (from 45 repos): **1**
+- Total Forks (from 45 repos): **0**
 - Organizations: **0**
 - Followers: **1**
 - Top Languages: C++ (37%), Makefile (22%), JavaScript (20%), Objective-C (10%), C (3%), Java (2%)
 
-_Last updated: 2025-11-20T11:33:37.822Z_
+_Last updated: 2025-11-20T11:37:01.262Z_
   
 <!--GITHUB_STATS_END-->
 
