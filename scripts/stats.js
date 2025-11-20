@@ -88,7 +88,7 @@ async function main() {
           defaultBranchRef {
             target {
               ... on Commit {
-                history(author: {id: $userId}) {
+                history {
                   totalCount
                 }
               }
@@ -112,7 +112,7 @@ async function main() {
           defaultBranchRef {
             target {
               ... on Commit {
-                history(author: {id: $userId}) {
+                history {
                   totalCount
                 }
               }
@@ -136,7 +136,7 @@ async function main() {
           defaultBranchRef {
             target {
               ... on Commit {
-                history(author: {id: $userId}) {
+                history {
                   totalCount
                 }
               }
@@ -160,7 +160,7 @@ async function main() {
           defaultBranchRef {
             target {
               ... on Commit {
-                history(author: {id: $userId}) {
+                history {
                   totalCount
                 }
               }
@@ -178,12 +178,7 @@ async function main() {
   }
   `;
 
-  // Get user ID first for filtering commits
-  const userIdQuery = `{ viewer { id } }`;
-  const userIdData = await gql(userIdQuery);
-  const userId = userIdData.viewer.id;
-
-  const data = await gql(query.replace('$userId', `"${userId}"`));
+  const data = await gql(query);
   const v = data.viewer;
 
   const allRepos = [
@@ -193,8 +188,14 @@ async function main() {
     ...v.orgPrivate.nodes
   ];
 
-  // Filter repos where user has actually contributed (has commits)
+  // Filter repos where user has actually contributed
+  // For owned repos, we assume contribution. For org repos, check if there are commits
   const contributedRepos = allRepos.filter(repo => {
+    // If it's an owned repo, include it
+    const isOwned = v.ownedPublic.nodes.includes(repo) || v.ownedPrivate.nodes.includes(repo);
+    if (isOwned) return true;
+    
+    // For org repos, only include if there are commits in default branch
     const commitCount = repo.defaultBranchRef?.target?.history?.totalCount || 0;
     return commitCount > 0;
   });
