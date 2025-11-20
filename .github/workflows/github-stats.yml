@@ -1,0 +1,37 @@
+name: GitHub Stats
+on:
+  schedule:
+    - cron: "30 18 * * *"     # once per day
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  stats:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install deps
+        run: npm i node-fetch@3
+
+      - name: Run stats script
+        run: node scripts/stats.js
+        env:
+          GH_USER: "ImamGhozali"
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Commit README update
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add README.md
+            git commit -m "Update GitHub stats"
+            git push
+          fi
