@@ -23,7 +23,9 @@ jobs:
       - name: Fetch latest changes from remote
         run: |
           git fetch origin
-          git pull --rebase origin master  # Rebase to avoid merge commits
+          git status  # Check the status to confirm we're on the correct branch
+          git log --oneline --decorate --graph -n 5  # Show the latest 5 commits (to confirm it's syncing)
+          git pull --rebase origin master  # Rebase the changes
 
       - name: Run stats script
         run: node scripts/stats.js
@@ -33,6 +35,7 @@ jobs:
 
       - name: Commit README update
         run: |
+          git status  # Check the status again after running the script
           if [[ -n "$(git status --porcelain)" ]]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
