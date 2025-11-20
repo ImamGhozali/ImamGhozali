@@ -35,6 +35,28 @@ async function gql(query) {
 }
 
 async function main() {
+  // First query to get total counts
+  const countQuery = `
+  {
+    viewer {
+      name
+      login
+      followers { totalCount }
+      repositories(ownerAffiliations: [OWNER, ORGANIZATION_MEMBER]) {
+        totalCount
+      }
+      organizations {
+        totalCount
+      }
+    }
+  }
+  `;
+
+  const countData = await gql(countQuery);
+  const totalRepoCount = countData.viewer.repositories.totalCount;
+  const orgCount = countData.viewer.organizations.totalCount;
+
+  // Second query to get repository details (up to 100 repos)
   const query = `
   {
     viewer {
@@ -59,9 +81,6 @@ async function main() {
           }
         }
       }
-      organizations(first: 10) {
-        totalCount
-      }
     }
   }
   `;
@@ -70,7 +89,6 @@ async function main() {
   const v = data.viewer;
 
   const allRepos = [...v.repositories.nodes, ...v.privateRepos.nodes];
-  const totalRepos = allRepos.length;
 
   const stars = allRepos.reduce((s, r) => s + r.stargazerCount, 0);
   const forks = allRepos.reduce((s, r) => s + r.forkCount, 0);
@@ -93,10 +111,10 @@ async function main() {
   const md = `
 **GitHub Stats for @${v.login}**
 
-- Total Repositories (personal + org): **${totalRepos}**
-- Total Stars (public + private): **${stars}**
-- Total Forks (public + private): **${forks}**
-- Organizations: **${v.organizations.totalCount}**
+- Total Repositories (personal + org): **${totalRepoCount}**
+- Total Stars (from ${allRepos.length} repos): **${stars}**
+- Total Forks (from ${allRepos.length} repos): **${forks}**
+- Organizations: **${orgCount}**
 - Followers: **${v.followers.totalCount}**
 - Top Languages: ${topLangs}
 
