@@ -12,20 +12,26 @@
 - **Total Forks**: 🍴 0
 
 ### 💻 Contribution Statistics
-- **Total Commits**: 771 (this year)
-- **Total Commits in Repos**: 3,293 (all time in fetched repos)
-- **Pull Requests**: 329 (this year)
+- **Total Commits (2025)**: 773
+- **Total Commits in Repos**: 3,296 (all time in fetched repos)
+- **Commits Activity**: Jun → Jul → Aug → Sep → Oct → Nov (773 total this year)
 - **Issues Opened**: 0 (this year)
 - **Code Reviews**: 0 (this year)
 
+### 🔀 Pull Requests Breakdown
+- **Total PRs**: 855
+- **Open**: 🟢 0 | **Merged**: 🟣 100 | **Closed**: 🔴 0
+- **Total Comments Received**: 💬 0
+- **Total Reviews Received**: 👀 9
+
 ### 🌐 Community
-- **Organizations**: 0
+- **Organizations**: 1
 - **Followers**: 1
 
 ### 🔤 Top Languages
-C++ (37%), Makefile (22%), JavaScript (20%), Objective-C (10%), C (3%), Java (2%)
+C++ (47%), JavaScript (26%), Objective-C (13%), C (3%), Java (3%), CSS (3%)
 
-_Last updated: 2025-11-20T11:46:03.749Z_
+_Last updated: 2025-11-20T12:12:07.434Z_
   
 <!--GITHUB_STATS_END-->
 
