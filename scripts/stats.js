@@ -49,7 +49,9 @@ async function main() {
         totalCount
       }
       organizations(first: 100) {
-        totalCount
+        nodes {
+          login
+        }
       }
     }
   }
@@ -57,12 +59,15 @@ async function main() {
 
   const countData = await gql(countQuery);
   const totalRepoCount = countData.viewer.ownedRepos.totalCount + countData.viewer.orgRepos.totalCount;
-  const orgCount = countData.viewer.organizations.totalCount;
+  const orgCount = countData.viewer.organizations.nodes.length;
   
   console.log(`Owned repos: ${countData.viewer.ownedRepos.totalCount}`);
   console.log(`Org repos: ${countData.viewer.orgRepos.totalCount}`);
   console.log(`Total repos: ${totalRepoCount}`);
   console.log(`Organizations: ${orgCount}`);
+  if (orgCount > 0) {
+    console.log(`Organization names: ${countData.viewer.organizations.nodes.map(o => o.login).join(', ')}`);
+  }
 
   // Second query to get repository details with contribution data
   const query = `
