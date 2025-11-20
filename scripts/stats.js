@@ -1,9 +1,9 @@
 import fs from "fs";
 import fetch from "node-fetch";
 
-
-console.log(process.env.GH_USER);
-console.log(process.env.GH_TOKEN);
+// Log environment variables for debugging
+console.log("GH_USER:", process.env.GH_USER);  // Should print the username
+console.log("GH_TOKEN:", process.env.GH_TOKEN);  // Should print the token (use caution)
 
 const user = process.env.GH_USER;
 const token = process.env.GH_TOKEN;
