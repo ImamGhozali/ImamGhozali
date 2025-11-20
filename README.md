@@ -1,5 +1,8 @@
 ### Hi there 👋
 
+<!--GITHUB_STATS_START-->
+<!--GITHUB_STATS_END-->
+
 <!--
 **ImamGhozali/ImamGhozali** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
