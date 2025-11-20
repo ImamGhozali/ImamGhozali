@@ -82,6 +82,28 @@ async function main() {
         totalPullRequestContributions
         totalPullRequestReviewContributions
         restrictedContributionsCount
+        contributionCalendar {
+          totalContributions
+          months {
+            name
+            totalWeeks
+          }
+        }
+      }
+      pullRequests(first: 100, orderBy: {field: CREATED_AT, direction: DESC}) {
+        totalCount
+        nodes {
+          state
+          createdAt
+          mergedAt
+          closedAt
+          comments {
+            totalCount
+          }
+          reviews {
+            totalCount
+          }
+        }
       }
       ownedPublic: repositories(first: 100, ownerAffiliations: OWNER, privacy: PUBLIC, orderBy: {field: UPDATED_AT, direction: DESC}) {
         nodes {
@@ -233,12 +255,15 @@ async function main() {
   // Count forks
   const forkedRepos = contributedRepos.filter(r => r.isFork).length;
 
-  // Language statistics from contributed repos
+  // Language statistics from contributed repos (exclude Makefile and other build files)
+  const excludedLangs = ['Makefile', 'CMake', 'Dockerfile'];
   const langMap = {};
   for (const repo of contributedRepos) {
     for (const edge of repo.languages.edges) {
       const lang = edge.node.name;
-      langMap[lang] = (langMap[lang] || 0) + edge.size;
+      if (!excludedLangs.includes(lang)) {
+        langMap[lang] = (langMap[lang] || 0) + edge.size;
+      }
     }
   }
 
@@ -251,6 +276,42 @@ async function main() {
 
   const contributions = v.contributionsCollection;
 
+  // Calculate PR breakdown
+  const prStats = {
+    open: 0,
+    merged: 0,
+    closed: 0,
+    totalComments: 0,
+    totalReviews: 0
+  };
+
+  for (const pr of v.pullRequests.nodes) {
+    if (pr.state === 'OPEN') {
+      prStats.open++;
+    } else if (pr.state === 'MERGED') {
+      prStats.merged++;
+    } else if (pr.state === 'CLOSED') {
+      prStats.closed++;
+    }
+    prStats.totalComments += pr.comments.totalCount;
+    prStats.totalReviews += pr.reviews.totalCount;
+  }
+
+  // Calculate commits by month (current year)
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth();
+  
+  // Get last 6 months of activity
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const last6Months = [];
+  for (let i = 5; i >= 0; i--) {
+    const monthIndex = (currentMonth - i + 12) % 12;
+    last6Months.push(monthNames[monthIndex]);
+  }
+  
+  const commitsByMonth = `${last6Months.join(' → ')} (${contributions.totalCommitContributions} total this year)`;
+
   const md = `
 **GitHub Stats for @${v.login}**
 
@@ -262,11 +323,17 @@ async function main() {
 - **Total Forks**: 🍴 ${forks}
 
 ### 💻 Contribution Statistics
-- **Total Commits**: ${contributions.totalCommitContributions.toLocaleString()} (this year)
+- **Total Commits (${currentYear})**: ${contributions.totalCommitContributions.toLocaleString()}
 - **Total Commits in Repos**: ${totalCommits.toLocaleString()} (all time in fetched repos)
-- **Pull Requests**: ${contributions.totalPullRequestContributions} (this year)
+- **Commits Activity**: ${commitsByMonth}
 - **Issues Opened**: ${contributions.totalIssueContributions} (this year)
 - **Code Reviews**: ${contributions.totalPullRequestReviewContributions} (this year)
+
+### 🔀 Pull Requests Breakdown
+- **Total PRs**: ${v.pullRequests.totalCount}
+- **Open**: 🟢 ${prStats.open} | **Merged**: 🟣 ${prStats.merged} | **Closed**: 🔴 ${prStats.closed}
+- **Total Comments Received**: 💬 ${prStats.totalComments}
+- **Total Reviews Received**: 👀 ${prStats.totalReviews}
 
 ### 🌐 Community
 - **Organizations**: ${orgCount}
