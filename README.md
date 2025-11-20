@@ -1,5 +1,6 @@
-### Hi there 👋
+### Hi there, Imam here 👋
 
+I'm a software engineer currently working in Gloding Inc, Japan. 
 <!--GITHUB_STATS_START-->
 
 **GitHub Stats for @ImamGhozali**
