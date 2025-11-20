@@ -4,6 +4,11 @@ on:
     - cron: "30 18 * * *"     # once per day
   workflow_dispatch:
 
+# Prevent concurrent runs
+concurrency:
+  group: github-stats
+  cancel-in-progress: false
+
 permissions:
   contents: write
 
@@ -34,4 +39,4 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add README.md
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Update GitHub stats" && git push)
+          git diff --quiet && git diff --staged --quiet || (git pull --rebase && git commit -m "Update GitHub stats" && git push)
