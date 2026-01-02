@@ -6,16 +6,16 @@ I'm a software engineer currently working in Gloding Inc, Japan.
 **GitHub Stats for @ImamGhozali**
 
 ### 📊 Repository Statistics
-- **Total Repositories**: 45 (25 owned, 20 org)
-- **Repositories with Contributions**: 45 (25 owned, 20 org)
+- **Total Repositories**: 46 (26 owned, 20 org)
+- **Repositories with Contributions**: 46 (26 owned, 20 org)
 - **Forked Repositories**: 15
 - **Total Stars Earned**: ⭐ 2
 - **Total Forks**: 🍴 0
 
 ### 💻 Contribution Statistics
-- **Total Commits (2026)**: 765
-- **Total Commits in Repos**: 3,346 (all time in fetched repos)
-- **Commits Activity**: Aug → Sep → Oct → Nov → Dec → Jan (765 total this year)
+- **Total Commits (2026)**: 797
+- **Total Commits in Repos**: 3,379 (all time in fetched repos)
+- **Commits Activity**: Aug → Sep → Oct → Nov → Dec → Jan (797 total this year)
 - **Issues Opened**: 0 (this year)
 - **Code Reviews**: 0 (this year)
 
@@ -32,7 +32,7 @@ I'm a software engineer currently working in Gloding Inc, Japan.
 ### 🔤 Top Languages
 C++ (47%), JavaScript (26%), Objective-C (13%), C (3%), Java (3%), CSS (3%)
 
-_Last updated: 2026-01-01T18:49:37.047Z_
+_Last updated: 2026-01-02T18:49:16.586Z_
   
 <!--GITHUB_STATS_END-->
 
