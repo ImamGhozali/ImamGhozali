@@ -13,9 +13,9 @@ I'm a software engineer currently working in Gloding Inc, Japan.
 - **Total Forks**: 🍴 0
 
 ### 💻 Contribution Statistics
-- **Total Commits (2026)**: 804
-- **Total Commits in Repos**: 3,423 (all time in fetched repos)
-- **Commits Activity**: Aug → Sep → Oct → Nov → Dec → Jan (804 total this year)
+- **Total Commits (2026)**: 800
+- **Total Commits in Repos**: 3,424 (all time in fetched repos)
+- **Commits Activity**: Sep → Oct → Nov → Dec → Jan → Feb (800 total this year)
 - **Issues Opened**: 0 (this year)
 - **Code Reviews**: 0 (this year)
 
@@ -32,7 +32,7 @@ I'm a software engineer currently working in Gloding Inc, Japan.
 ### 🔤 Top Languages
 C++ (47%), JavaScript (26%), Objective-C (13%), C (3%), Java (3%), CSS (3%)
 
-_Last updated: 2026-01-31T18:53:09.016Z_
+_Last updated: 2026-02-01T18:57:45.510Z_
   
 <!--GITHUB_STATS_END-->
 
