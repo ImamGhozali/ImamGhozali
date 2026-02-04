@@ -14,7 +14,7 @@ I'm a software engineer currently working in Gloding Inc, Japan.
 
 ### 💻 Contribution Statistics
 - **Total Commits (2026)**: 800
-- **Total Commits in Repos**: 3,425 (all time in fetched repos)
+- **Total Commits in Repos**: 3,426 (all time in fetched repos)
 - **Commits Activity**: Sep → Oct → Nov → Dec → Jan → Feb (800 total this year)
 - **Issues Opened**: 0 (this year)
 - **Code Reviews**: 0 (this year)
@@ -32,7 +32,7 @@ I'm a software engineer currently working in Gloding Inc, Japan.
 ### 🔤 Top Languages
 C++ (47%), JavaScript (26%), Objective-C (13%), C (3%), Java (3%), CSS (3%)
 
-_Last updated: 2026-02-03T19:24:09.717Z_
+_Last updated: 2026-02-04T19:12:05.207Z_
   
 <!--GITHUB_STATS_END-->
 
